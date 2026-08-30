@@ -1,0 +1,20 @@
+node_modules
+dist
+.vite
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+
+# Editor and operating system files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local logs and coverage output
+*.log
+coverage/
