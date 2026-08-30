@@ -2,6 +2,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { motion, useReducedMotion } from 'motion/react'
 import { useLayoutEffect, useRef } from 'react'
+import Beams from './Beams'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -39,6 +40,7 @@ export default function Hero() {
 
   return (
     <section id="top" ref={heroRef} className="hero" aria-labelledby="hero-title">
+      <div className="hero-beams" aria-hidden="true"><Beams beamWidth={3.3} beamHeight={25} beamNumber={7} lightColor="#a0c8c0" speed={2} noiseIntensity={1.55} scale={0.25} rotation={160} beamColor="#101A18" backgroundColor="#0B0E0D" /></div>
       <motion.div className="hero-terrain" aria-hidden="true"><span /><span /><span /></motion.div>
       <div className="hero-transition-field" aria-hidden="true" />
       <motion.div className="hero-content">
