@@ -3,7 +3,7 @@ import LiquidGlass from 'liquid-glass-react'
 import { useEffect, useRef, useState } from 'react'
 import { useActiveSection } from '../hooks/useActiveSection'
 
-const navItems = [['work', 'Work'], ['about', 'About'], ['experience', 'Experience'], ['education', 'Education'], ['skills', 'Skills'], ['contact', 'Contact']]
+const navItems = [['about', 'About'], ['work', 'Work'], ['experience', 'Experience'], ['education', 'Education'], ['skills', 'Skills'], ['contact', 'Contact']]
 const sectionIds = navItems.map(([id]) => id)
 
 function NavGlass({ mouseContainer }) {
