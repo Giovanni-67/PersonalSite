@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const photography = {
   exam: { photo: 'exam-registration.jpg', caption: 'Study & learning' },
-  minecraft: { photo: 'minecraft.jpg', caption: 'Minecraft server development' },
+  minecraft: { photo: 'minecraft.png', caption: 'Minecraft server development' },
   slo: { photo: 'cal-poly-slo.jpg', caption: 'San Luis Obispo County' },
   trading: { photo: 'trading.jpg', caption: 'Market research' },
   redis: { photo: 'redis.jpg', caption: 'Network connections' },
