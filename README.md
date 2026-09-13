@@ -27,11 +27,11 @@ images, not screenshots of the projects. Desktop scrolling moves through all
 five panels. Small or short viewports and reduced-motion users receive stacked
 panels so every description remains reachable.
 
-The project images are distinct Unsplash editorial photographs: a
-[library study area](https://unsplash.com/photos/nGlfw0HouBQ), the original
-Minecraft server-rack image, [SLO County hills](https://unsplash.com/photos/RG1Nhgd-ddE),
-[market charts](https://unsplash.com/photos/fiXLQXAhCfk), and
-[network cables](https://unsplash.com/photos/40XgDxBfYXM).
+The five project images are owner-selected assets served locally from
+`public/assets/projects/`: an exam classroom, a Minecraft castle, Cal Poly
+SLO, market charts, and a database illustration. Exam, Minecraft, and Redis
+use the supplied full-resolution replacements. The Minecraft PNG is about
+14.7 MB; its original quality is preserved, with a slower-loading tradeoff.
 
 Coursework uses the confirmed newest-first learning sequence, not numerical
 sorting. Prefixes were cross-checked against CSN's

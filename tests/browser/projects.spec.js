@@ -62,8 +62,8 @@ test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height
   page.on('pageerror', error => errors.push(error.message))
   await page.getByRole('link', { name: 'Work', exact: true }).click()
   await expect(page).toHaveURL(/#work$/)
-  // Let native smooth anchor navigation finish before driving the rail.
-  await expect.poll(() => page.locator('#work').evaluate(section => Math.round(section.getBoundingClientRect().top))).toBe(80)
+  // The complete Work background must reach the viewport top before driving the rail.
+  await expect.poll(() => page.locator('#work').evaluate(section => Math.abs(section.getBoundingClientRect().top))).toBeLessThan(1)
   const pin = await page.locator('#work').evaluate(readPin)
   expect(pin.end).toBeGreaterThan(pin.start)
   for (const direction of [titles, [...titles].reverse()]) {

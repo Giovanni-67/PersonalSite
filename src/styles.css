@@ -26,9 +26,6 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-weight:400}.eyebrow,.mono-label,.timeline-
 @media(max-width:560px){.hero h1{font-size:clamp(4rem,18vw,5.6rem)}.button{padding:.65rem .82rem;font-size:.78rem}.section{padding:4.5rem 0}.project-panel{padding:1.4rem}.project-panel__photo{min-height:230px}.project-panel h3{font-size:3.5rem}.coursework button{grid-template-columns:64px 1fr}.coursework__summary>p{padding-left:64px}.site-footer .container{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.project-rail{transform:none!important}}
 
-/* Land navigation just before the pinned rail begins so anchor scrolling
-   never competes with ScrollTrigger's pin transition. */
-.project-rail-section{scroll-margin-top:5rem}
 .project-panel .eyebrow{color:var(--bone-deep)}
 
 /* Full-screen chapters, without constraining longer text or open coursework. */
