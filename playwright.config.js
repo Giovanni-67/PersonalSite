@@ -6,7 +6,9 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   timeout: process.env.CI ? 120000 : 60000,
   expect: { timeout: 15000 },
-  use: { baseURL: 'http://127.0.0.1:4179', viewport: { width: 1440, height: 900 } },
+  // Use Chromium’s full headless browser: the shell froze CSS transition
+  // clocks at zero on the hosted runner despite a visible, loaded document.
+  use: { channel: process.env.CI ? 'chromium' : undefined, baseURL: 'http://127.0.0.1:4179', viewport: { width: 1440, height: 900 } },
   webServer: {
     command: 'npm run dev -- --host 127.0.0.1 --port 4179 --strictPort',
     url: 'http://127.0.0.1:4179',
