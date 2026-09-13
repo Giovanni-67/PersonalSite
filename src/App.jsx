@@ -6,6 +6,7 @@ import Loader from './components/Loader'
 import ProjectRail from './components/ProjectRail'
 import { experience, education, projects, skills } from './data/portfolio'
 import { useLayoutEffect } from 'react'
+import { useChapterSnap } from './hooks/useChapterSnap'
 
 const headers = { about: 'About', experience: 'Experience / Leadership', education: 'Education', skills: 'Skills' }
 
@@ -14,6 +15,7 @@ function SectionHeading({ id }) {
 }
 
 export default function App() {
+  useChapterSnap()
   useLayoutEffect(() => {
     if (!window.location.hash) window.scrollTo(0, 0)
   }, [])
@@ -37,7 +39,7 @@ export default function App() {
       <ProjectRail projects={projects} />
       <section id="experience" className="section section--experience" aria-labelledby="experience-title"><div className="container"><SectionHeading id="experience" /><div className="timeline" id="experience-title">{experience.map((item, index) => <Reveal className="timeline-item" key={`${item.organization}-${item.role}`} delay={index * 0.05}><div className="timeline-marker" aria-hidden="true" /><div className="timeline-meta">{item.date}</div><div className="timeline-content"><h3>{item.role}</h3><p className="timeline-organization">{item.organization}{item.location ? ` · ${item.location}` : ''}</p><p>{item.description}</p></div></Reveal>)}</div></div></section>
       <section id="education" className="section section--education" aria-labelledby="education-title"><div className="container"><SectionHeading id="education" /><div className="education-grid" id="education-title"><div className="education-list">{education.map((item, index) => <Reveal className="education-item" key={item.school} delay={index * 0.06}><span className="mono-label">{item.date}</span><h3>{item.school}</h3><p className="education-program">{item.program}</p>{item.detail && <p>{item.detail}</p>}{item.gpa && <p className="education-gpa">{item.gpa}</p>}</Reveal>)}</div><Reveal delay={0.14}><Coursework /></Reveal></div></div></section>
-      <section id="skills" className="section section--skills" aria-labelledby="skills-title"><div className="container"><SectionHeading id="skills" /><p className="section-intro section-intro--narrow" id="skills-title">Hands-on technologies and concepts grouped by the work they support—not proficiency percentages.</p><div className="skills-grid">{skills.map((group, index) => <Reveal className="skill-group" key={group.label} delay={index * 0.05}><h3>{group.label}</h3><p>{group.items.join(' · ')}</p></Reveal>)}</div></div></section>
+      <section id="skills" className="section section--skills" aria-labelledby="skills-title"><div className="container"><SectionHeading id="skills" /><p className="section-intro section-intro--narrow" id="skills-title">The tools I work with, the directions that interest me, and the languages I speak.</p><div className="skills-grid">{skills.map((group, index) => <Reveal className="skill-group" key={group.label} delay={index * 0.05}><h3>{group.label}</h3><p>{group.items.join(' · ')}</p></Reveal>)}</div></div></section>
       <section id="contact" className="section section--contact" aria-labelledby="contact-title"><div className="container"><Reveal className="contact-surface"><span className="eyebrow">06 / Contact</span><h2 id="contact-title">Let’s connect.</h2><p>I’m always interested in connecting with people working in software, AI/ML, systems, and related technical areas.</p><a className="contact-email" href="mailto:giovannipeila67@gmail.com">giovannipeila67@gmail.com</a><div className="contact-links" aria-label="Professional links"><a href="https://github.com/Giovanni-67" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a><a href="https://linkedin.com/in/giovanni-p-60a9973a5" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a></div></Reveal></div></section>
     </main>
     <footer className="site-footer"><div className="container"><strong>Giovanni Peila</strong><span>Software, systems, and work in progress.</span><span>© 2026</span></div></footer>
