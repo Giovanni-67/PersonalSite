@@ -2,6 +2,15 @@ import { test, expect } from '@playwright/test'
 
 const titles = ['Exam Registration System', 'Minecraft Server Development', 'SLO Opportunities', 'Trading Strategy Lab', 'Redis-like Network Service']
 
+function readPin(section) {
+  const spacer = section.parentElement
+  const rail = section.querySelector('.project-rail')
+  const start = spacer.getBoundingClientRect().top + scrollY
+  const end = start + parseFloat(getComputedStyle(spacer).paddingBottom)
+  const distance = rail.lastElementChild.getBoundingClientRect().right - rail.getBoundingClientRect().left + parseFloat(getComputedStyle(rail).paddingRight) - rail.clientWidth
+  return { start, end, distance, moveEnd: end - Math.min(240, section.clientHeight * 0.2) }
+}
+
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
   await page.evaluate(() => document.fonts.ready)
@@ -13,11 +22,7 @@ test.beforeEach(async ({ page }) => {
 for (const viewport of [{ width: 1440, height: 900 }, { width: 900, height: 700 }]) {
 test(`Redis finishes moving before the rail unpins at ${viewport.width}x${viewport.height}`, async ({ page }) => {
   await page.setViewportSize(viewport)
-  const pin = await page.locator('#work').evaluate(section => {
-    const spacer = section.parentElement
-    const start = spacer.getBoundingClientRect().top + scrollY
-    return { start, end: start + parseFloat(getComputedStyle(spacer).paddingBottom) }
-  })
+  const pin = await page.locator('#work').evaluate(readPin)
   expect(pin.end).toBeGreaterThan(pin.start)
 
   // Exercise both a quick flick and a smaller movement through the boundary.
@@ -25,7 +30,7 @@ test(`Redis finishes moving before the rail unpins at ${viewport.width}x${viewpo
     await page.evaluate(top => window.scrollTo({ top, behavior: 'instant' }), pin.end - remaining)
     await expect.poll(() => page.locator('#work').evaluate(section => Math.abs(section.getBoundingClientRect().top))).toBeLessThan(1)
     await expect.poll(() => page.locator('.project-rail').evaluate((rail, { pin, remaining }) => {
-      const expected = -(rail.scrollWidth - rail.clientWidth) * (1 - remaining / (pin.end - pin.start))
+      const expected = -pin.distance * Math.min(1, (pin.end - remaining - pin.start) / (pin.moveEnd - pin.start))
       return Math.abs(new DOMMatrixReadOnly(getComputedStyle(rail).transform).m41 - expected)
     }, { pin, remaining })).toBeLessThan(1)
 
@@ -38,8 +43,8 @@ test(`Redis finishes moving before the rail unpins at ${viewport.width}x${viewpo
         await new Promise(requestAnimationFrame)
         if (section.getBoundingClientRect().top < -1) {
           const rect = rail.lastElementChild.getBoundingClientRect()
-          const x = new DOMMatrixReadOnly(getComputedStyle(rail).transform).m41
-          return { remainingX: Math.abs(x + rail.scrollWidth - rail.clientWidth), left: rect.left, right: rect.right }
+          const gutter = parseFloat(getComputedStyle(rail).paddingRight)
+          return { remainingX: Math.abs(document.documentElement.clientWidth - rect.right - gutter), left: rect.left, right: rect.right }
         }
       }
       return null
@@ -59,11 +64,7 @@ test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height
   await expect(page).toHaveURL(/#work$/)
   // Let native smooth anchor navigation finish before driving the rail.
   await expect.poll(() => page.locator('#work').evaluate(section => Math.round(section.getBoundingClientRect().top))).toBe(80)
-  const pin = await page.evaluate(() => {
-    const spacer = document.querySelector('#work').parentElement
-    const start = spacer.getBoundingClientRect().top + scrollY
-    return { start, end: start + parseFloat(getComputedStyle(spacer).paddingBottom) }
-  })
+  const pin = await page.locator('#work').evaluate(readPin)
   expect(pin.end).toBeGreaterThan(pin.start)
   for (const direction of [titles, [...titles].reverse()]) {
     for (const title of direction) {
@@ -71,9 +72,9 @@ test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height
       await page.evaluate(({ pin, index }) => {
         const rail = document.querySelector('.project-rail')
         const panel = rail.children[index]
-        const distance = rail.scrollWidth - rail.clientWidth
+        const distance = pin.distance
         const offset = Math.min(distance, panel.offsetLeft - rail.children[0].offsetLeft)
-        window.scrollTo({ top: pin.start + (pin.end - pin.start) * offset / distance, behavior: 'instant' })
+        window.scrollTo({ top: pin.start + (pin.moveEnd - pin.start) * offset / distance, behavior: 'instant' })
       }, { pin, index })
       const panel = page.getByRole('article', { name: title, exact: true })
       await expect.poll(async () => {

@@ -23,9 +23,27 @@ export default function ProjectRail({ projects }) {
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
       media.add('(min-width: 900px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)', () => {
-        const distance = () => Math.max(0, rail.scrollWidth - rail.clientWidth)
-        // Keep the rail in sync with the pin so it cannot keep moving after release.
-        gsap.to(rail, { x: () => -distance(), ease: 'none', scrollTrigger: { id: 'project-rail', trigger: section, start: 'top top', end: () => `+=${Math.max(900, distance() * 1.15)}`, pin: true, scrub: true, invalidateOnRefresh: true, anticipatePin: 1 } })
+        const distance = () => {
+          const contentRight = rail.lastElementChild.getBoundingClientRect().right - rail.getBoundingClientRect().left
+          // Overflowing flex content does not reliably include the trailing padding.
+          return Math.max(0, contentRight + parseFloat(getComputedStyle(rail).paddingRight) - rail.clientWidth)
+        }
+        let movementFraction = 1
+        gsap.to(rail, {
+          x: () => -distance(),
+          ease: progress => Math.min(1, progress / movementFraction),
+          scrollTrigger: {
+            id: 'project-rail', trigger: section, start: 'top top',
+            end: () => {
+              const travel = Math.max(900, distance() * 1.15)
+              const rest = Math.min(240, section.clientHeight * 0.2)
+              movementFraction = travel / (travel + rest)
+              return `+=${travel + rest}`
+            },
+            // Finish the horizontal move, then keep the completed panel pinned briefly.
+            pin: true, scrub: true, invalidateOnRefresh: true, anticipatePin: 1,
+          },
+        })
       })
       return () => media.revert()
     }, section)
