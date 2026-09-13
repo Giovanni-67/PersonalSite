@@ -18,3 +18,5 @@ Thumbs.db
 # Local logs and coverage output
 *.log
 coverage/
+test-results/
+playwright-report/

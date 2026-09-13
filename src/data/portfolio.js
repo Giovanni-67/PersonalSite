@@ -1,5 +1,29 @@
 export const projects = [
   { title: 'Exam Registration System', variant: 'exam', stack: ['Python', 'Flask', 'MySQL'], context: 'CIT 260: Systems Analysis and Design · Aug–Dec 2025', description: 'A role-based exam registration web application for students and instructors, built with Python, Flask, and MySQL.', details: ['Secure login and role-based access control', 'Exam creation and student registration workflows', 'Built through requirements analysis, testing, and deployment using SDLC practices'] },
+  {
+    title: 'Minecraft Server Development',
+    variant: 'minecraft',
+    context: 'Developer · Windpvp',
+    stack: ['Java', 'Velocity API', 'Maven'],
+    description: 'Server-side plugin development for a Minecraft community, building player commands and utilities for the Velocity proxy.',
+    details: ['Implemented /ping and /ms commands for player latency checks', 'Online-player lookup and command suggestions', 'Permission checks and feedback for unavailable players'],
+  },
+  {
+    title: 'SLO Opportunities',
+    variant: 'slo',
+    status: 'Currently Building',
+    stack: ['JavaScript', 'HTML', 'CSS'],
+    description: 'An independent discovery tool helping Cal Poly students find clubs, research, competitions, and hands-on opportunities by major or interest.',
+    details: ['Search and filter a sourced opportunity catalog', 'Expandable details with matching explanations and official links', 'Keyboard-accessible browsing and responsive layouts'],
+  },
+  {
+    title: 'Trading Strategy Lab',
+    variant: 'trading',
+    status: 'Currently Building',
+    stack: ['Python', 'SQLite', 'HTML'],
+    description: 'A local research tool for testing trading ideas against historical market data and inspecting simulated results. Currently a research prototype with no live trading.',
+    details: ['Repeatable backtests including transaction costs', 'Test strategies on later data outside their training period', 'Simulated portfolios, background jobs, and a results dashboard'],
+  },
   { title: 'Redis-like Network Service', variant: 'redis', status: 'Currently Building', stack: ['Python', 'TCP sockets', 'Threading', 'JSON', 'Linux/WSL'], description: 'A learning-oriented TCP client/server service inspired by Redis, built to explore networking, concurrency, and race conditions.', details: ['Implemented PING, SET, GET, and DEL commands', 'JSON-based data persistence', 'Multithreaded support for multiple clients'] },
 ]
 
