@@ -2,6 +2,20 @@ import { test, expect } from '@playwright/test'
 
 const codes = ['CSC 2001', 'CSC 1000', 'CIT 230', 'CS 202', 'CIT 130', 'CIT 260', 'CIT 180', 'CIT 129', 'AP CS A']
 
+test.afterEach(async ({ page }, info) => {
+  if (info.status === info.expectedStatus) return
+  console.log('Coursework startup diagnostics:', await page.evaluate(() => {
+    const loader = document.querySelector('.site-loader')
+    const style = loader && getComputedStyle(loader)
+    return {
+      visibility: document.visibilityState,
+      fonts: document.fonts.status,
+      loader: loader && { className: loader.className, visibility: style.visibility, opacity: style.opacity, transition: style.transition },
+      animations: loader?.getAnimations().map(animation => ({ state: animation.playState, time: animation.currentTime, timing: animation.effect.getComputedTiming() })),
+    }
+  }))
+})
+
 for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 }]) {
   test(`coursework preserves hover and keyboard expansion at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport)
