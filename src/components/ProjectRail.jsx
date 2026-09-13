@@ -66,7 +66,7 @@ export default function ProjectRail({ projects }) {
   }, [projects.length])
 
   return <section ref={sectionRef} id="work" tabIndex={-1} className="project-rail-section" aria-labelledby="work-title">
-    <div className="project-rail-heading container"><div><span className="eyebrow">Selected work</span><h2 id="work-title">Projects in <em>progress.</em></h2></div><p>A growing record of systems, applications, and experiments.</p></div>
+    <div className="project-rail-heading container"><div><span className="eyebrow">Selected work</span><h2 id="work-title">Projects</h2></div></div>
     <div ref={railRef} className="project-rail">
       {projects.map(project => <article className="project-panel" key={project.variant} aria-labelledby={`project-${project.variant}`}>
         <div className="project-panel__copy"><span className="eyebrow">{project.status || 'Selected project'}</span><h3 id={`project-${project.variant}`}>{project.title}</h3><p className="project-panel__stack">{project.stack.join(' / ')}</p>{project.context && <p className="project-panel__context">{project.context}</p>}<p>{project.description}</p><ul>{project.details.map(detail => <li key={detail}>{detail}</li>)}</ul></div>
