@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 test('clicked selection stays stable throughout navigation and Contact stays active', async ({ page }) => {
+  // Ten transitions sample 1,000 rendered frames on software-rendered CI.
+  test.setTimeout(process.env.CI ? 300000 : 60000)
   await page.setViewportSize({ width: 1724, height: 1320 })
   await page.goto('/')
   await page.evaluate(() => document.fonts.ready)
