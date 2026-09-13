@@ -5,11 +5,11 @@ import { useLayoutEffect, useRef } from 'react'
 gsap.registerPlugin(ScrollTrigger)
 
 const photography = {
-  exam: { photo: 'photo-1558494949-ef010cbdcc31', caption: 'Application workflows' },
+  exam: { photo: 'photo-1707757112182-5167a5e17444', caption: 'Study & learning' },
   minecraft: { photo: 'photo-1558494949-ef010cbdcc31', caption: 'Minecraft server development' },
-  slo: { photo: 'photo-1518770660439-4636190af475', caption: 'Student opportunity discovery' },
-  trading: { photo: 'photo-1518770660439-4636190af475', caption: 'Historical strategy testing' },
-  redis: { photo: 'photo-1518770660439-4636190af475', caption: 'Network service development' },
+  slo: { photo: 'photo-1712023105222-653af4f805b6', caption: 'San Luis Obispo County' },
+  trading: { photo: 'photo-1611974789855-9c2a0a7236a3', caption: 'Market research' },
+  redis: { photo: 'photo-1544197150-b99a580bb7a8', caption: 'Network connections' },
 }
 
 export default function ProjectRail({ projects }) {
