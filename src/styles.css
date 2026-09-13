@@ -29,3 +29,26 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-weight:400}.eyebrow,.mono-label,.timeline-
 /* Land navigation just before the pinned rail begins so anchor scrolling
    never competes with ScrollTrigger's pin transition. */
 .project-rail-section{scroll-margin-top:5rem}
+.project-panel .eyebrow{color:var(--bone-deep)}
+
+/* Keep the complete project panel inside the viewport while it is pinned. */
+@media(min-width:900px) and (min-height:700px) and (prefers-reduced-motion:no-preference){
+  .project-rail-section{height:100svh;padding:90px 0 24px;display:flex;flex-direction:column}
+  .project-rail-heading{flex:none;margin-bottom:24px}
+  .project-rail-heading h2{font-size:clamp(2.4rem,4vw,3.8rem);line-height:1}
+  .project-rail{flex:1;min-height:0}
+  .project-panel{min-height:0;padding:28px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+  .project-panel__copy{align-self:center;max-width:none}
+  .project-panel h3{font-size:clamp(2.3rem,3.5vw,3.5rem);line-height:.95}
+  .project-panel__copy>p:not(.project-panel__stack):not(.project-panel__context){font-size:.9rem;line-height:1.5;margin-top:1rem}
+  .project-panel ul{font-size:.78rem;margin-top:.8rem}
+  .project-panel__photo{min-height:0}
+  .project-panel__photo img{position:absolute;inset:0}
+}
+@media(max-width:899px),(max-height:699px),(prefers-reduced-motion:reduce){
+  .project-rail{display:grid;gap:2rem;overflow:visible;transform:none!important}
+  .project-panel{min-width:0;grid-template-columns:minmax(0,1fr);min-height:0}
+  .project-panel__copy{max-width:none}
+  .project-panel__photo{height:240px;min-height:0;order:-1}
+  .project-panel__photo img{position:absolute;inset:0}
+}

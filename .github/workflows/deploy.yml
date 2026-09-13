@@ -24,13 +24,22 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Test project data
+        run: npm test
+
+      - name: Install browser for regression tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Test project browsing
+        run: npm run test:e2e
+
+      - name: Build verified site
         run: npm run build -- --base=/PersonalSite/
 
       - name: Setup Pages
