@@ -6,6 +6,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('.site-loader')).toBeHidden()
   await expect(page.locator('#work h3')).toHaveText(titles)
+  await page.evaluate(() => document.fonts.ready)
 })
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 900, height: 700 }]) {
@@ -15,6 +16,8 @@ test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height
   page.on('pageerror', error => errors.push(error.message))
   await page.getByRole('link', { name: 'Work', exact: true }).click()
   await expect(page).toHaveURL(/#work$/)
+  // Let native smooth anchor navigation finish before driving the rail.
+  await expect.poll(() => page.locator('#work').evaluate(section => Math.round(section.getBoundingClientRect().top))).toBe(80)
   const pin = await page.evaluate(() => {
     const spacer = document.querySelector('#work').parentElement
     const start = spacer.getBoundingClientRect().top + scrollY
@@ -34,8 +37,17 @@ test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height
       const panel = page.getByRole('article', { name: title, exact: true })
       await expect.poll(async () => {
         const rect = await panel.boundingBox()
-        return rect.x >= -1 && rect.x + rect.width <= viewport.width + 1 && rect.y >= 0 && rect.y + rect.height <= viewport.height + 1
-      }).toBe(true)
+        return {
+          title,
+          leftOverflow: Math.max(0, Math.round(-rect.x)),
+          rightOverflow: Math.max(0, Math.round(rect.x + rect.width - viewport.width)),
+          topOverflow: Math.max(0, Math.round(-rect.y)),
+          bottomOverflow: Math.max(0, Math.round(rect.y + rect.height - viewport.height)),
+        }
+      }, { timeout: 15000 }).toEqual({ title, leftOverflow: 0, rightOverflow: 0, topOverflow: 0, bottomOverflow: 0 })
+      const settled = await panel.boundingBox()
+      expect(settled.x).toBeGreaterThanOrEqual(-1)
+      expect(settled.y).toBeGreaterThanOrEqual(-1)
       await expect(panel.getByRole('heading')).toBeVisible()
       const lastDetail = await panel.locator('li').last().boundingBox()
       const panelBox = await panel.boundingBox()
