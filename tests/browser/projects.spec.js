@@ -20,8 +20,9 @@ test.beforeEach(async ({ page }) => {
 })
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 900, height: 700 }]) {
+test.describe(`initial rail layout ${viewport.width}x${viewport.height}`, () => {
+test.use({ viewport })
 test(`Redis finishes moving before the rail unpins at ${viewport.width}x${viewport.height}`, async ({ page }) => {
-  await page.setViewportSize(viewport)
   const pin = await page.locator('#work').evaluate(readPin)
   expect(pin.end).toBeGreaterThan(pin.start)
 
@@ -57,7 +58,6 @@ test(`Redis finishes moving before the rail unpins at ${viewport.width}x${viewpo
 })
 
 test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height}`, async ({ page }) => {
-  await page.setViewportSize(viewport)
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
   await page.getByRole('link', { name: 'Work', exact: true }).click()
@@ -105,6 +105,7 @@ test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height
   await page.screenshot({ path: `${test.info().outputDir}/work-desktop.png` })
   expect(errors).toEqual([])
 })
+})
 }
 
 for (const scenario of [
@@ -112,9 +113,10 @@ for (const scenario of [
   { name: 'short desktop', width: 1280, height: 650, reducedMotion: 'no-preference' },
   { name: 'reduced motion', width: 1280, height: 800, reducedMotion: 'reduce' },
 ]) {
+  test.describe(`${scenario.name} initial project layout`, () => {
+  test.use({ viewport: { width: scenario.width, height: scenario.height }, reducedMotion: scenario.reducedMotion })
   test(`${scenario.name}: all five projects remain readable without pinning`, async ({ page }) => {
-    await page.setViewportSize({ width: scenario.width, height: scenario.height })
-    await page.emulateMedia({ reducedMotion: scenario.reducedMotion })
+    await expect(page.locator('.pin-spacer')).toHaveCount(0)
     await expect(page.locator('#work')).not.toHaveCSS('position', 'fixed')
     for (const title of titles) {
       const panel = page.getByRole('article', { name: title, exact: true })
@@ -129,5 +131,6 @@ for (const scenario of [
     }
     await page.screenshot({ path: `${test.info().outputDir}/work-${scenario.name.replaceAll(' ', '-')}.png` })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  })
   })
 }
