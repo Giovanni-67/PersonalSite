@@ -1,17 +1,19 @@
 import { test, expect } from '@playwright/test'
 
-test('every project uses a distinct editorial image and keeps the Minecraft image', async ({ page }) => {
+test('all five supplied project photos load in the requested order', async ({ page }) => {
   await page.goto('/')
   await page.evaluate(() => document.fonts.ready)
   await expect(page.locator('.site-loader')).toBeHidden()
   const photos = page.locator('.project-panel__photo img')
   await expect(photos).toHaveCount(5)
-  const urls = await photos.evaluateAll(images => images.map(image => image.src.split('?')[0]))
-  expect(new Set(urls).size).toBe(5)
-  expect(urls[1]).toContain('photo-1558494949-ef010cbdcc31')
-  for (const index of [0, 2, 3, 4]) {
-    expect(urls[index]).not.toMatch(/photo-1558494949-ef010cbdcc31|photo-1518770660439-4636190af475/)
+  const urls = await photos.evaluateAll(images => images.map(image => new URL(image.src).pathname))
+  expect(urls).toEqual(['exam-registration.jpg', 'minecraft.png', 'cal-poly-slo.jpg', 'trading.jpg', 'redis.jpg'].map(name => `/assets/projects/${name}`))
+  for (const photo of await photos.all()) {
+    // Decode each lazy image too, including panels initially outside the viewport.
+    await photo.evaluate(image => { image.loading = 'eager' })
+    await expect.poll(() => photo.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
   }
+  expect(await photos.evaluateAll(images => [images[0], images[1], images[4]].map(image => [image.naturalWidth, image.naturalHeight]))).toEqual([[4160, 6240], [3840, 2400], [2500, 1875]])
   await expect(page.locator('.project-panel__photo figcaption')).toHaveText([
     'Study & learning · Editorial image',
     'Minecraft server development · Editorial image',

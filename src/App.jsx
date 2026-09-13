@@ -6,6 +6,7 @@ import Loader from './components/Loader'
 import ProjectRail from './components/ProjectRail'
 import { experience, education, projects, skills } from './data/portfolio'
 import { useLayoutEffect } from 'react'
+import { useChapterSnap } from './hooks/useChapterSnap'
 
 const headers = { about: 'About', experience: 'Experience / Leadership', education: 'Education', skills: 'Skills' }
 
@@ -14,6 +15,7 @@ function SectionHeading({ id }) {
 }
 
 export default function App() {
+  useChapterSnap()
   useLayoutEffect(() => {
     if (!window.location.hash) window.scrollTo(0, 0)
   }, [])
