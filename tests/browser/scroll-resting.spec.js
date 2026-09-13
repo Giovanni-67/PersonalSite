@@ -76,8 +76,9 @@ test('small repeated wheel steps can leave a settled chapter in either direction
   }
 })
 
+test.describe('short initial viewport', () => {
+test.use({ viewport: { width: 900, height: 700 } })
 test('long sections remain freely scrollable', async ({ page }) => {
-  await page.setViewportSize({ width: 900, height: 700 })
   await page.getByRole('link', { name: 'Experience', exact: true }).click()
   const section = page.locator('#experience')
   await expect.poll(() => section.evaluate(element => Math.abs(element.getBoundingClientRect().top))).toBeLessThan(1)
@@ -87,11 +88,17 @@ test('long sections remain freely scrollable', async ({ page }) => {
   await page.waitForTimeout(500)
   expect(await section.evaluate(element => Math.round(element.getBoundingClientRect().top))).toBe(-80)
 })
+})
 
 for (const mode of ['mobile', 'reduced motion']) {
+  test.describe(`${mode} initial layout`, () => {
+  // Configure the browser before beforeEach loads the app. Resizing a desktop
+  // page here races GSAP's pin teardown and changes the stored scroll target.
+  test.use(mode === 'mobile'
+    ? { viewport: { width: 375, height: 812 } }
+    : { reducedMotion: 'reduce' })
   test(`${mode} does not automatically reposition wheel scrolling`, async ({ page }) => {
-    if (mode === 'mobile') await page.setViewportSize({ width: 375, height: 812 })
-    else await page.emulateMedia({ reducedMotion: 'reduce' })
+    await expect(page.locator('.pin-spacer')).toHaveCount(0)
     const section = page.locator('#skills')
     const start = await section.evaluate(element => element.getBoundingClientRect().top + scrollY)
     await page.evaluate(top => scrollTo({ top, behavior: 'instant' }), start - 220)
@@ -101,4 +108,33 @@ for (const mode of ['mobile', 'reduced motion']) {
     await page.waitForTimeout(500)
     expect(await section.evaluate(element => Math.round(element.getBoundingClientRect().top))).toBe(80)
   })
+  })
 }
+
+test('desktop-to-mobile resize settles before subsequent wheel scrolling', async ({ page }) => {
+  await expect(page.locator('.pin-spacer')).toHaveCount(1)
+  await page.setViewportSize({ width: 375, height: 812 })
+  await expect(page.locator('.pin-spacer')).toHaveCount(0)
+  await expect(page.locator('.project-rail')).toHaveCSS('transform', 'none')
+  // Resize is its own flow: wait for stable document geometry, not a guessed
+  // sleep or a cached target from the outgoing desktop layout.
+  let previous
+  let stableSince = Date.now()
+  await expect.poll(async () => {
+    const current = await page.locator('#skills').evaluate(element => JSON.stringify({
+      top: element.getBoundingClientRect().top + scrollY,
+      height: document.documentElement.scrollHeight,
+      scroll: scrollY,
+    }))
+    if (current !== previous) { previous = current; stableSince = Date.now() }
+    return Date.now() - stableSince
+  }).toBeGreaterThan(300)
+  const section = page.locator('#skills')
+  const start = await section.evaluate(element => element.getBoundingClientRect().top + scrollY)
+  await page.evaluate(top => scrollTo({ top, behavior: 'instant' }), start - 220)
+  await expect.poll(() => section.evaluate(element => Math.round(element.getBoundingClientRect().top))).toBe(220)
+  await page.mouse.wheel(0, 140)
+  await expect.poll(() => section.evaluate(element => Math.round(element.getBoundingClientRect().top))).toBe(80)
+  await page.waitForTimeout(500)
+  expect(await section.evaluate(element => Math.round(element.getBoundingClientRect().top))).toBe(80)
+})

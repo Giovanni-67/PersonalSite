@@ -20,9 +20,9 @@ for (const viewport of [
   { width: 1280, height: 650 },
   { width: 1280, height: 800, reducedMotion: 'reduce' },
 ]) {
+  test.describe(`initial navigation layout ${viewport.width}x${viewport.height}`, () => {
+  test.use({ viewport: { width: viewport.width, height: viewport.height }, reducedMotion: viewport.reducedMotion || 'no-preference' })
   test(`Work lands flush from above and below without reversing at ${viewport.width}x${viewport.height}`, async ({ page }) => {
-    await page.setViewportSize(viewport)
-    await page.emulateMedia({ reducedMotion: viewport.reducedMotion || 'no-preference' })
     for (const origin of ['top', 'about', 'skills', 'contact']) {
       if (origin === 'top') await page.getByRole('link', { name: 'Giovanni Peila, back to top' }).click()
       else await openNavLink(page, origin[0].toUpperCase() + origin.slice(1))
@@ -61,6 +61,7 @@ for (const viewport of [
       await expect(first.getByRole('heading')).toBeInViewport()
       expect((await first.boundingBox()).x).toBeGreaterThanOrEqual(-1)
     }
+  })
   })
 }
 

@@ -45,5 +45,12 @@ short windows, reduced motion, and horizontal overflow. GitHub Actions runs
 these checks before publishing `dist` to the existing GitHub Pages site on
 `main`. For the repository URL, the production build uses `--base=/PersonalSite/`.
 
+Viewport-specific browser tests set `test.use({ viewport, reducedMotion })`
+before navigation. Loading desktop first and immediately resizing to mobile
+races GSAP's responsive pin cleanup, which can invalidate measured scroll
+targets. Resize behavior is covered separately after the pin is removed and
+document geometry settles. Keep the exact scroll assertions; do not fix
+failures by skipping them or retrying deployments until they pass.
+
 Work on feature branches and keep commits focused. Generated files, dependencies,
 test output, and secrets must stay out of Git.
