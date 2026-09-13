@@ -7,9 +7,50 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(() => document.fonts.ready)
   await expect(page.locator('.site-loader')).toBeHidden()
   await expect(page.locator('#work h3')).toHaveText(titles)
+  await expect(page.locator('#work').getByText(/^\d{2}$/)).toHaveCount(0)
 })
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 900, height: 700 }]) {
+test(`Redis finishes moving before the rail unpins at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+  await page.setViewportSize(viewport)
+  const pin = await page.locator('#work').evaluate(section => {
+    const spacer = section.parentElement
+    const start = spacer.getBoundingClientRect().top + scrollY
+    return { start, end: start + parseFloat(getComputedStyle(spacer).paddingBottom) }
+  })
+  expect(pin.end).toBeGreaterThan(pin.start)
+
+  // Exercise both a quick flick and a smaller movement through the boundary.
+  for (const remaining of [600, 80]) {
+    await page.evaluate(top => window.scrollTo({ top, behavior: 'instant' }), pin.end - remaining)
+    await expect.poll(() => page.locator('#work').evaluate(section => Math.abs(section.getBoundingClientRect().top))).toBeLessThan(1)
+    await expect.poll(() => page.locator('.project-rail').evaluate((rail, { pin, remaining }) => {
+      const expected = -(rail.scrollWidth - rail.clientWidth) * (1 - remaining / (pin.end - pin.start))
+      return Math.abs(new DOMMatrixReadOnly(getComputedStyle(rail).transform).m41 - expected)
+    }, { pin, remaining })).toBeLessThan(1)
+
+    const release = await page.evaluate(async end => {
+      const section = document.querySelector('#work')
+      const rail = section.querySelector('.project-rail')
+      window.scrollTo({ top: end + 48, behavior: 'instant' })
+      // Sample the FIRST unpinned frame, not the eventually settled animation.
+      for (let frame = 0; frame < 120; frame++) {
+        await new Promise(requestAnimationFrame)
+        if (section.getBoundingClientRect().top < -1) {
+          const rect = rail.lastElementChild.getBoundingClientRect()
+          const x = new DOMMatrixReadOnly(getComputedStyle(rail).transform).m41
+          return { remainingX: Math.abs(x + rail.scrollWidth - rail.clientWidth), left: rect.left, right: rect.right }
+        }
+      }
+      return null
+    }, pin.end)
+    expect(release, 'The page should resume vertical scrolling').not.toBeNull()
+    expect(release.remainingX, 'No horizontal catch-up after vertical scrolling resumes').toBeLessThan(1)
+    expect(release.left).toBeGreaterThanOrEqual(-1)
+    expect(release.right).toBeLessThanOrEqual(viewport.width + 1)
+  }
+})
+
 test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height}`, async ({ page }) => {
   await page.setViewportSize(viewport)
   const errors = []
