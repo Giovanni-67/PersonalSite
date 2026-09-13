@@ -51,6 +51,9 @@ test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height
       await expect(panel.getByRole('heading')).toBeVisible()
       const lastDetail = await panel.locator('li').last().boundingBox()
       const panelBox = await panel.boundingBox()
+      const copyBox = await panel.locator('.project-panel__copy').boundingBox()
+      expect(copyBox.y).toBeGreaterThanOrEqual(panelBox.y)
+      expect(copyBox.y + copyBox.height).toBeLessThanOrEqual(panelBox.y + panelBox.height)
       expect(lastDetail.y + lastDetail.height).toBeLessThanOrEqual(panelBox.y + panelBox.height)
       if (['SLO Opportunities', 'Trading Strategy Lab', 'Redis-like Network Service'].includes(title)) {
         await expect(panel.getByText('Currently Building', { exact: true })).toBeVisible()

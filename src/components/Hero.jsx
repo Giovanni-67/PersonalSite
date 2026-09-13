@@ -20,10 +20,8 @@ export default function Hero() {
           scrollTrigger: {
             trigger: heroRef.current,
             start: 'top top',
-            end: '+=92%',
-            pin: true,
+            end: 'bottom top',
             scrub: 0.4,
-            anticipatePin: 1,
           },
         })
         timeline

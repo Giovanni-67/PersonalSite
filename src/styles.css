@@ -31,6 +31,11 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-weight:400}.eyebrow,.mono-label,.timeline-
 .project-rail-section{scroll-margin-top:5rem}
 .project-panel .eyebrow{color:var(--bone-deep)}
 
+/* Full-screen chapters, without constraining longer text or open coursework. */
+.section:not(.section--contact){min-height:100svh;display:flex;align-items:center;padding:clamp(6rem,10svh,8rem) 0}
+.timeline-item:last-child{padding-bottom:0}
+@media(max-width:899px){.hero{min-height:100svh}}
+
 /* Keep the complete project panel inside the viewport while it is pinned. */
 @media(min-width:900px) and (min-height:700px) and (prefers-reduced-motion:no-preference){
   .project-rail-section{height:100svh;padding:90px 0 24px;display:flex;flex-direction:column}
