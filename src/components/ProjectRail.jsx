@@ -47,10 +47,25 @@ export default function ProjectRail({ projects }) {
       })
       return () => media.revert()
     }, section)
-    return () => context.revert()
+    const navigateToWork = event => {
+      const link = event.target.closest('a[href="#work"]')
+      if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.hasAttribute('download') || (link.target && link.target !== '_self')) return
+      const trigger = ScrollTrigger.getById('project-rail')
+      if (!trigger) return
+      // The pinned element moves; its scroll trigger retains the document start.
+      event.preventDefault()
+      if (window.location.hash !== '#work') window.history.pushState(window.history.state, '', '#work')
+      section.focus({ preventScroll: true })
+      window.scrollTo({ top: trigger.start, behavior: 'smooth' })
+    }
+    document.addEventListener('click', navigateToWork)
+    return () => {
+      document.removeEventListener('click', navigateToWork)
+      context.revert()
+    }
   }, [projects.length])
 
-  return <section ref={sectionRef} id="work" className="project-rail-section" aria-labelledby="work-title">
+  return <section ref={sectionRef} id="work" tabIndex={-1} className="project-rail-section" aria-labelledby="work-title">
     <div className="project-rail-heading container"><div><span className="eyebrow">Selected work</span><h2 id="work-title">Projects in <em>progress.</em></h2></div><p>A growing record of systems, applications, and experiments.</p></div>
     <div ref={railRef} className="project-rail">
       {projects.map(project => <article className="project-panel" key={project.variant} aria-labelledby={`project-${project.variant}`}>

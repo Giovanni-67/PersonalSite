@@ -45,7 +45,7 @@ export default function Navbar() {
           const isHighlighted = highlightedId === id
           return <li key={id} className={isHighlighted ? 'nav-item nav-item--highlighted' : 'nav-item'}>
             {useLiquidNav && <span className="nav-item__glass-stage" aria-hidden="true"><NavGlass mouseContainer={headerRef} /></span>}
-            <a className={activeSection === id ? 'is-active' : ''} href={`#${id}`} onMouseEnter={() => setHoveredId(id)} onFocus={() => setHoveredId(id)} onClick={() => setIsOpen(false)}>{label}</a>
+            <a className={activeSection === id ? 'is-active' : ''} href={`#${id}`} onMouseEnter={() => setHoveredId(id)} onFocus={() => setHoveredId(id)} onBlur={() => setHoveredId(null)} onClick={() => setIsOpen(false)}>{label}</a>
           </li>
         })}</ul>
       </nav>
