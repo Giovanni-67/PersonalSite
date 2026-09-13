@@ -17,8 +17,9 @@ test.afterEach(async ({ page }, info) => {
 })
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 }]) {
+  test.describe(`initial viewport ${viewport.width}`, () => {
+  test.use({ viewport })
   test(`coursework preserves hover and keyboard expansion at ${viewport.width}`, async ({ page }) => {
-    await page.setViewportSize(viewport)
     await page.goto('/')
     await page.evaluate(() => document.fonts.ready)
     await expect(page.locator('.site-loader')).toBeHidden()
@@ -51,5 +52,6 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 
       await expect.poll(() => summary.evaluate(element => element.clientHeight)).toBe(0)
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  })
   })
 }
