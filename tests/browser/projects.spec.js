@@ -4,9 +4,9 @@ const titles = ['Exam Registration System', 'Minecraft Server Development', 'SLO
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
+  await page.evaluate(() => document.fonts.ready)
   await expect(page.locator('.site-loader')).toBeHidden()
   await expect(page.locator('#work h3')).toHaveText(titles)
-  await page.evaluate(() => document.fonts.ready)
 })
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 900, height: 700 }]) {

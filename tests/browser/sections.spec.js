@@ -6,8 +6,8 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 650
     const errors = []
     page.on('pageerror', error => errors.push(error.message))
     await page.goto('/')
-    await expect(page.locator('.site-loader')).toBeHidden()
     await page.evaluate(() => document.fonts.ready)
+    await expect(page.locator('.site-loader')).toBeHidden()
     for (const id of ['about', 'experience', 'education', 'skills']) {
       const section = page.locator(`#${id}`)
       if (viewport.width < 900) await page.getByRole('button', { name: 'Open navigation' }).click()
@@ -29,9 +29,11 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 650
     await expect(lastCourse).toHaveAttribute('aria-expanded', 'true')
     const summary = lastCourse.locator('..').locator('.coursework__summary')
     await expect.poll(() => summary.evaluate(element => element.clientHeight)).toBeGreaterThan(20)
-    const education = await page.locator('#education').boundingBox()
-    const summaryBox = await summary.boundingBox()
-    expect(summaryBox.y + summaryBox.height).toBeLessThan(education.y + education.height)
+    // Measure both rectangles in one frame: focus can still be scrolling.
+    await expect.poll(() => summary.evaluate(element => {
+      const sectionBottom = document.getElementById('education').getBoundingClientRect().bottom
+      return sectionBottom - element.getBoundingClientRect().bottom
+    })).toBeGreaterThan(0)
     expect(await page.locator('#contact').evaluate(element => getComputedStyle(element).minHeight)).toBe('0px')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     expect(errors).toEqual([])
@@ -40,8 +42,8 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 650
 
 test('hero scrolls away naturally while retaining its beams and parallax', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('.site-loader')).toBeHidden()
   await page.evaluate(() => document.fonts.ready)
+  await expect(page.locator('.site-loader')).toBeHidden()
   const hero = page.locator('#top')
   await expect(hero.locator('..')).not.toHaveClass(/pin-spacer/)
   await expect(hero.locator('canvas')).toHaveCount(1)

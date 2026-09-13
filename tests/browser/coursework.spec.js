@@ -6,8 +6,8 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 
   test(`coursework preserves hover and keyboard expansion at ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport)
     await page.goto('/')
-    await expect(page.locator('.site-loader')).toBeHidden()
     await page.evaluate(() => document.fonts.ready)
+    await expect(page.locator('.site-loader')).toBeHidden()
     const coursework = page.getByRole('region', { name: 'Relevant coursework', exact: true })
     await coursework.scrollIntoViewIfNeeded()
     await expect(coursework.locator('..')).toHaveCSS('opacity', '1')

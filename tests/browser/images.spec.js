@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test('every project uses a distinct editorial image and keeps the Minecraft image', async ({ page }) => {
   await page.goto('/')
+  await page.evaluate(() => document.fonts.ready)
   await expect(page.locator('.site-loader')).toBeHidden()
   const photos = page.locator('.project-panel__photo img')
   await expect(photos).toHaveCount(5)
