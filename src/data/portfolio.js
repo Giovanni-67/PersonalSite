@@ -74,9 +74,9 @@ export const courses = [
 ]
 
 export const skills = [
-  { label: 'Languages', items: ['Java', 'Python', 'C++', 'JavaScript', 'HTML', 'CSS'] },
+  { label: 'Programming & web languages', items: ['Java', 'Python', 'C++', 'JavaScript', 'HTML', 'CSS'] },
   { label: 'Frameworks & technologies', items: ['React', 'Flask', 'MySQL'] },
   { label: 'Tools & environments', items: ['Git', 'GitHub', 'VS Code', 'Eclipse', 'IntelliJ', 'Linux', 'Ubuntu', 'WSL'] },
-  { label: 'Concepts explored', items: ['Object-oriented programming', 'Data structures', 'Recursion', 'Binary trees', 'Networking', 'TCP sockets', 'Client/server architecture', 'Multithreading', 'Concurrency and race conditions', 'JSON persistence', 'Relational databases', 'SQL', 'Frontend development', 'Software Development Life Cycle'] },
-  { label: 'Currently expanding', items: ['Artificial intelligence and machine learning', 'Backend development', 'Systems programming', 'Modern React/frontend development', 'Modern UI interaction and animation'] },
+  { label: 'Areas of interest', items: ['Frontend development', 'UI design and interaction', 'Backend development', 'Artificial intelligence and machine learning', 'Systems and networking'] },
+  { label: 'Spoken languages', items: ['English (fluent)', 'Mandarin (fluent)'] },
 ]
