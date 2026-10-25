@@ -1,56 +1,24 @@
-# Giovanni Peila — Portfolio
+# Personal Portfolio
 
-React and Vite portfolio with an animated Beams hero, glass navigation,
-education and experience, and a scroll-driven Selected Work section.
+A collection of software projects, experience, and ongoing work, presented through an interactive portfolio website.
 
-Projects appear in this order: Exam Registration System, Minecraft Server
-Development, SLO Opportunities, Trading Strategy Lab, and Redis-like Network
-Service. SLO Opportunities, Trading Strategy Lab, and Redis remain in progress.
-Trading Strategy Lab is a research prototype and does not execute live trades.
+**[Visit the portfolio](https://giovanni-67.github.io/PersonalSite/)**
 
-## Development
+## Highlights
 
-Use Node.js 22 or newer.
+- **Explore the work.** Browse projects with descriptions of their purpose, the work involved, and their current status.
+- **Follow the background.** Read about experience, leadership, education, and relevant coursework.
+- **Discover interests.** Explore the skills and technical areas behind the projects.
+- **Browse across devices.** A horizontal project gallery on larger screens becomes a stacked layout on smaller screens.
 
-```sh
-npm ci
-npm run dev
-npm test
-npx playwright install chromium
-npm run test:e2e
-npm run build
-```
+## Featured projects
 
-Project content lives in `src/data/portfolio.js`; the existing editorial image
-choices are in `src/components/ProjectRail.jsx`. These are decorative stock
-images, not screenshots of the projects. Desktop scrolling moves through all
-five panels. Small or short viewports and reduced-motion users receive stacked
-panels so every description remains reachable.
+- Exam Registration System
+- Minecraft Server Development
+- SLO Opportunities — in progress
+- Trading Strategy Lab — in progress; a research prototype with no live trading
+- Redis-like Network Service — in progress
 
-The five project images are owner-selected assets served locally from
-`public/assets/projects/`: an exam classroom, a Minecraft castle, Cal Poly
-SLO, market charts, and a database illustration. Exam, Minecraft, and Redis
-use the supplied full-resolution replacements. The Minecraft PNG is about
-14.7 MB; its original quality is preserved, with a slower-loading tradeoff.
+## The experience
 
-Coursework uses the confirmed newest-first learning sequence, not numerical
-sorting. Prefixes were cross-checked against CSN's
-[Java guidance](https://www.csn.edu/_csnmedia/documents/cit-information/prepare_for_oracle_certifications2023-24.pdf)
-and the [2024–25 CSN/UNLV transfer agreement](https://www.unlv.edu/sites/default/files/media/document/2024-07/BS-4Year-ComputerScience-2024-2025.pdf).
-New Cal Poly summaries use the [official CSC catalog](https://catalog.calpoly.edu/courses/csc/).
-
-Unit tests check project ordering, complete data, and in-progress labels.
-Playwright checks real navigation, forward/backward rail traversal, mobile,
-short windows, reduced motion, and horizontal overflow. GitHub Actions runs
-these checks before publishing `dist` to the existing GitHub Pages site on
-`main`. For the repository URL, the production build uses `--base=/PersonalSite/`.
-
-Viewport-specific browser tests set `test.use({ viewport, reducedMotion })`
-before navigation. Loading desktop first and immediately resizing to mobile
-races GSAP's responsive pin cleanup, which can invalidate measured scroll
-targets. Resize behavior is covered separately after the pin is removed and
-document geometry settles. Keep the exact scroll assertions; do not fix
-failures by skipping them or retrying deployments until they pass.
-
-Work on feature branches and keep commits focused. Generated files, dependencies,
-test output, and secrets must stay out of Git.
+An animated abstract hero, liquid-glass navigation, subtle text reveals, and scroll-linked transitions give the site its character. Project imagery is illustrative; detailed project descriptions and current progress are available on the live site.
