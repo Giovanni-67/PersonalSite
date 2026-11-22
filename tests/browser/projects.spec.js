@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-const titles = ['Exam Registration System', 'Minecraft Server Development', 'SLO Opportunities', 'Trading Strategy Lab', 'Redis-like Network Service']
+const titles = ['Newton — AI Study Companion', 'Exam Registration System', 'Minecraft Server Development', 'SLO Opportunities', 'Rewind', 'Redis-like Network Service']
 
 function readPin(section) {
   const spacer = section.parentElement
@@ -97,7 +97,7 @@ test(`Work navigation reaches every panel at ${viewport.width}x${viewport.height
       expect(copyBox.y).toBeGreaterThanOrEqual(panelBox.y)
       expect(copyBox.y + copyBox.height).toBeLessThanOrEqual(panelBox.y + panelBox.height)
       expect(lastDetail.y + lastDetail.height).toBeLessThanOrEqual(panelBox.y + panelBox.height)
-      if (['SLO Opportunities', 'Trading Strategy Lab', 'Redis-like Network Service'].includes(title)) {
+      if (['SLO Opportunities', 'Rewind', 'Redis-like Network Service'].includes(title)) {
         await expect(panel.getByText('Currently Building', { exact: true })).toBeVisible()
       }
     }
@@ -115,7 +115,7 @@ for (const scenario of [
 ]) {
   test.describe(`${scenario.name} initial project layout`, () => {
   test.use({ viewport: { width: scenario.width, height: scenario.height }, reducedMotion: scenario.reducedMotion })
-  test(`${scenario.name}: all five projects remain readable without pinning`, async ({ page }) => {
+  test(`${scenario.name}: all projects remain readable without pinning`, async ({ page }) => {
     await expect(page.locator('.pin-spacer')).toHaveCount(0)
     await expect(page.locator('#work')).not.toHaveCSS('position', 'fixed')
     for (const title of titles) {

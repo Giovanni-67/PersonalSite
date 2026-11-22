@@ -51,7 +51,7 @@ export default function Hero() {
           <a className="button button--quiet" href="#contact">Contact <span aria-hidden="true">↘</span></a>
         </motion.div>
       </motion.div>
-      <div className="hero-work-preview" aria-hidden="true"><span>01 / SELECTED WORK</span><strong>Exam Registration System</strong></div>
+      <div className="hero-work-preview" aria-hidden="true"><span>01 / SELECTED WORK</span><strong>Newton — AI Study Companion</strong></div>
       <a className="hero-scroll-cue" href="#work" aria-label="Scroll to selected work"><span>SCROLL TO EXPLORE</span><i aria-hidden="true" /></a>
     </section>
   )

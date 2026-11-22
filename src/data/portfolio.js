@@ -1,5 +1,19 @@
 export const projects = [
   {
+    title: 'Newton — AI Study Companion',
+    variant: 'newton',
+    context: 'Team Twofold · Cal Poly AI Hackathon · November 2026',
+    stack: ['TypeScript', 'Next.js', 'Supabase'],
+    description: 'An AI study companion that reads handwritten algebra and gives students hints grounded in their own work.',
+    details: [
+      'Integrated Groq-hosted Qwen handwriting recognition with student review before checking.',
+      'Used exact arithmetic to verify supported distributive-property expansions.',
+      'Added Google sign-in and Supabase learning history with row-level security.',
+      'Built local Deepgram voice tutoring for spoken hints.',
+    ],
+    url: 'https://newton-weld-gamma.vercel.app',
+  },
+  {
     title: 'Exam Registration System',
     variant: 'exam',
     stack: ['Python', 'Flask', 'MySQL'],
@@ -35,12 +49,16 @@ export const projects = [
     details: ['Search and filter a sourced opportunity catalog', 'Expandable details with matching explanations and official links', 'Keyboard-accessible browsing and responsive layouts'],
   },
   {
-    title: 'Trading Strategy Lab',
-    variant: 'trading',
+    title: 'Rewind',
+    variant: 'rewind',
     status: 'Currently Building',
-    stack: ['Python', 'SQLite', 'HTML'],
-    description: 'A local research tool for testing trading ideas against historical market data and inspecting simulated results. Currently a research prototype with no live trading.',
-    details: ['Repeatable backtests including transaction costs', 'Test strategies on later data outside their training period', 'Simulated portfolios, background jobs, and a results dashboard'],
+    stack: ['JavaScript SDK', 'Gemini', 'Playwright'],
+    description: 'An AI-powered, privacy-first debugging platform in development that aims to turn website bug reports into reproducible tests.',
+    details: [
+      'A lightweight SDK is designed to capture interactions and errors leading up to a failure, with sensitive data redacted before storage or transmission.',
+      'Gemini analyzes the sanitized timeline and drafts a Playwright test for a controlled environment.',
+      'The planned dashboard shows the timeline, suspected cause, generated test, and reproduction result.',
+    ],
   },
   { title: 'Redis-like Network Service', variant: 'redis', status: 'Currently Building', stack: ['Python', 'TCP sockets', 'Threading', 'JSON', 'Linux/WSL'], description: 'A learning-oriented TCP client/server service inspired by Redis, built to explore networking, concurrency, and race conditions.', details: ['Implemented PING, SET, GET, and DEL commands', 'JSON-based data persistence', 'Multithreaded support for multiple clients'] },
 ]
@@ -74,9 +92,9 @@ export const courses = [
 ]
 
 export const skills = [
-  { label: 'Programming & web languages', items: ['Java', 'Python', 'C++', 'JavaScript', 'HTML', 'CSS'] },
-  { label: 'Frameworks & technologies', items: ['React', 'Flask', 'MySQL'] },
-  { label: 'Tools & environments', items: ['Git', 'GitHub', 'VS Code', 'Eclipse', 'IntelliJ', 'Linux', 'Ubuntu', 'WSL'] },
+  { label: 'Programming & web languages', items: ['Java', 'Python', 'C++', 'JavaScript', 'TypeScript', 'SQL', 'HTML', 'CSS'] },
+  { label: 'Frameworks & technologies', items: ['React', 'Next.js', 'Node.js', 'Flask', 'Supabase', 'PostgreSQL', 'MySQL', 'Google OAuth', 'GSAP', 'Vite'] },
+  { label: 'Tools & environments', items: ['Git', 'GitHub', 'Maven', 'Vercel', 'Groq', 'Qwen', 'Deepgram', 'VLM integration', 'Vitest', 'Playwright'] },
   { label: 'Areas of interest', items: ['Frontend development', 'UI design and interaction', 'Backend development', 'Artificial intelligence and machine learning', 'Systems and networking'] },
-  { label: 'Spoken languages', items: ['English (fluent)', 'Mandarin (fluent)'] },
+  { label: 'Spoken languages', items: ['English (native/bilingual)', 'Mandarin (native/bilingual)'] },
 ]

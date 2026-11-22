@@ -15,8 +15,8 @@ test('skills use topic groups rather than implied proficiency tiers', () => {
 })
 
 test('bilingual fluency is separate from programming languages', () => {
-  assert.deepEqual(skills.find(group => group.label === 'Spoken languages').items, ['English (fluent)', 'Mandarin (fluent)'])
-  assert.deepEqual(skills.find(group => group.label === 'Programming & web languages').items, ['Java', 'Python', 'C++', 'JavaScript', 'HTML', 'CSS'])
+  assert.deepEqual(skills.find(group => group.label === 'Spoken languages').items, ['English (native/bilingual)', 'Mandarin (native/bilingual)'])
+  assert.deepEqual(skills.find(group => group.label === 'Programming & web languages').items, ['Java', 'Python', 'C++', 'JavaScript', 'TypeScript', 'SQL', 'HTML', 'CSS'])
 })
 
 test('skill groups have unique labels and nonempty, unique items', () => {
