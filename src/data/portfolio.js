@@ -60,7 +60,7 @@ export const projects = [
       'The planned dashboard shows the timeline, suspected cause, generated test, and reproduction result.',
     ],
   },
-  { title: 'Redis-like Network Service', variant: 'redis', status: 'Currently Building', stack: ['Python', 'TCP sockets', 'Threading', 'JSON', 'Linux/WSL'], description: 'A learning-oriented TCP client/server service inspired by Redis, built to explore networking, concurrency, and race conditions.', details: ['Implemented PING, SET, GET, and DEL commands', 'JSON-based data persistence', 'Multithreaded support for multiple clients'] },
+  { title: 'Redis-like Network Service', variant: 'redis', status: 'Currently Building', stack: ['Python', 'TCP sockets', 'Threading', 'JSON'], description: 'A learning-oriented TCP client/server service inspired by Redis, built to explore networking, concurrency, and race conditions.', details: ['Implemented PING, SET, GET, and DEL commands', 'JSON-based data persistence', 'Multithreaded support for multiple clients'] },
 ]
 
 export const experience = [
