@@ -9,6 +9,7 @@ const photography = {
   exam: { photo: 'exam-registration.jpg', caption: 'Study & learning' },
   minecraft: { photo: 'minecraft.png', caption: 'Minecraft server development' },
   slo: { photo: 'cal-poly-slo.jpg', caption: 'San Luis Obispo County' },
+  rewind: { photo: 'rewind.png', caption: 'AI debugging illustration' },
   redis: { photo: 'redis.jpg', caption: 'Network connections' },
 }
 
