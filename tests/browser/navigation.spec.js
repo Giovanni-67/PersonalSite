@@ -93,6 +93,24 @@ test('hero has no active glass item after returning from About', async ({ page }
   await expect(nav.locator('.nav-item--highlighted')).toHaveCount(0)
 })
 
+test('hero Work click does not pin the rail before reaching its start', async ({ page }) => {
+  const work = page.locator('#work')
+  const start = await work.evaluate(section => section.parentElement.getBoundingClientRect().top + scrollY)
+  const transition = page.evaluate(target => new Promise(resolve => {
+    const work = document.getElementById('work')
+    const earlyPin = []
+    const sample = () => {
+      if (scrollY < target - 1 && getComputedStyle(work).position === 'fixed') earlyPin.push(scrollY)
+      if (Math.abs(scrollY - target) <= 1) resolve(earlyPin)
+      else requestAnimationFrame(sample)
+    }
+    requestAnimationFrame(sample)
+  }), start)
+  await page.getByRole('link', { name: 'View selected work' }).click()
+  expect(await transition).toEqual([])
+  await expect(work).toBeFocused()
+})
+
 test('Work links support keyboard entry and restarting the pinned rail', async ({ page }) => {
   const work = page.locator('#work')
   const start = await work.evaluate(section => section.parentElement.getBoundingClientRect().top + scrollY)

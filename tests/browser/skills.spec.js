@@ -20,7 +20,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 
         'Tools & environments', 'Areas of interest', 'Spoken languages',
       ])
       await expect(section).not.toContainText(/Concepts explored|Currently expanding|Binary trees|TCP sockets|Multithreading|race conditions/i)
-      await expect(section).toContainText('English (fluent) · Mandarin (fluent)')
+      await expect(section).toContainText('English (native/bilingual) · Mandarin (native/bilingual)')
 
       for (const group of await section.locator('.skill-group').all()) {
         await group.scrollIntoViewIfNeeded()

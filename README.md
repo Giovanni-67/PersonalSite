@@ -13,10 +13,11 @@ A collection of software projects, experience, and ongoing work, presented throu
 
 ## Featured projects
 
+- Newton — AI Study Companion
 - Exam Registration System
 - Minecraft Server Development
 - SLO Opportunities — in progress
-- Trading Strategy Lab — in progress; a research prototype with no live trading
+- Rewind — privacy-first debugging platform, in progress
 - Redis-like Network Service — in progress
 
 ## The experience

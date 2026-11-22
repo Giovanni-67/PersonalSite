@@ -54,3 +54,8 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-weight:400}.eyebrow,.mono-label,.timeline-
   .project-panel__photo{height:240px;min-height:0;order:-1}
   .project-panel__photo img{position:absolute;inset:0}
 }
+.project-panel__copy:only-child{grid-column:1/-1;max-width:680px}
+.project-panel__link{display:inline-block;margin-top:1rem;color:var(--bone);text-underline-offset:.25em}
+.project-panel__photo--cover img{object-fit:contain;filter:none}
+.project-panel__photo--cover::after{background:none}
+.project-panel__photo--cover figcaption{background:var(--jade-deep);padding:.3rem .45rem}

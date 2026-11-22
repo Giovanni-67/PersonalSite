@@ -2,19 +2,16 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { projects, courses } from '../src/data/portfolio.js'
 
-test('projects follow the requested five-project sequence without placeholders', () => {
-  assert.deepEqual(projects.map(project => project.variant), ['exam', 'minecraft', 'slo', 'trading', 'redis'])
+test('Newton leads the requested project sequence without placeholders', () => {
+  assert.deepEqual(projects.map(project => project.variant), ['newton', 'exam', 'minecraft', 'slo', 'rewind', 'redis'])
   assert.equal(new Set(projects.map(project => project.title)).size, projects.length)
 })
 
-test('in-progress projects are clearly labeled and trading uses plain language', () => {
-  for (const variant of ['slo', 'trading', 'redis']) {
+test('in-progress projects are clearly labeled', () => {
+  for (const variant of ['slo', 'rewind', 'redis']) {
     assert.equal(projects.find(project => project.variant === variant).status, 'Currently Building')
   }
-  const trading = projects.find(project => project.variant === 'trading')
-  assert.equal(trading.title, 'Trading Strategy Lab')
-  assert.doesNotMatch(JSON.stringify(trading), /quant/i)
-  assert.match(trading.description, /no live trading/)
+  assert.match(projects.find(project => project.variant === 'rewind').description, /in development/)
 })
 
 test('every card has complete, nonempty display content and unique details', () => {
