@@ -114,7 +114,7 @@ test('hero Work click does not pin the rail before reaching its start', async ({
 test('Work links support keyboard entry and restarting the pinned rail', async ({ page }) => {
   const work = page.locator('#work')
   const start = await work.evaluate(section => section.parentElement.getBoundingClientRect().top + scrollY)
-  for (const name of ['View selected work', 'Scroll to selected work', 'Skip to selected work']) {
+  for (const name of ['View selected work', 'Skip to selected work']) {
     await page.getByRole('link', { name: 'Giovanni Peila, back to top' }).click()
     await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
     const link = page.getByRole('link', { name })

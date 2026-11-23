@@ -5,12 +5,12 @@ import { useLayoutEffect, useRef } from 'react'
 gsap.registerPlugin(ScrollTrigger)
 
 const photography = {
-  newton: { photo: 'newton.png', caption: 'Hackathon presentation cover' },
-  exam: { photo: 'exam-registration.jpg', caption: 'Study & learning' },
-  minecraft: { photo: 'minecraft.png', caption: 'Minecraft server development' },
-  slo: { photo: 'cal-poly-slo.jpg', caption: 'San Luis Obispo County' },
-  rewind: { photo: 'rewind.png', caption: 'AI debugging illustration' },
-  redis: { photo: 'redis.jpg', caption: 'Network connections' },
+  newton: { photo: 'newton.png' },
+  exam: { photo: 'exam-registration.jpg' },
+  minecraft: { photo: 'minecraft.png' },
+  slo: { photo: 'cal-poly-slo.jpg' },
+  rewind: { photo: 'rewind.png' },
+  redis: { photo: 'redis.jpg' },
 }
 
 export default function ProjectRail({ projects }) {
@@ -68,11 +68,11 @@ export default function ProjectRail({ projects }) {
   }, [projects.length])
 
   return <section ref={sectionRef} id="work" tabIndex={-1} className="project-rail-section" aria-labelledby="work-title">
-    <div className="project-rail-heading container"><div><span className="eyebrow">Selected work</span><h2 id="work-title">Projects</h2></div></div>
+    <div className="project-rail-heading container"><div><h2 id="work-title">Projects</h2></div></div>
     <div ref={railRef} className="project-rail">
       {projects.map(project => <article className="project-panel" key={project.variant} aria-labelledby={`project-${project.variant}`}>
-        <div className="project-panel__copy"><span className="eyebrow">{project.status || 'Selected project'}</span><h3 id={`project-${project.variant}`}>{project.title}</h3><p className="project-panel__stack">{project.stack.join(' / ')}</p>{project.context && <p className="project-panel__context">{project.context}</p>}<p>{project.description}</p><ul>{project.details.map(detail => <li key={detail}>{detail}</li>)}</ul>{project.url && <a className="project-panel__link" href={project.url}>Try Newton</a>}</div>
-        {photography[project.variant] && <figure className={`project-panel__photo${project.variant === 'newton' ? ' project-panel__photo--cover' : ''}`}><img src={`${import.meta.env.BASE_URL}assets/projects/${photography[project.variant].photo}`} alt={project.variant === 'newton' ? 'What if every student had a personal tutor?' : ''} loading="lazy" /><figcaption>{photography[project.variant].caption}{project.variant === 'newton' ? '' : ' · Editorial image'}</figcaption></figure>}
+        <div className="project-panel__copy">{project.status && <span className="eyebrow">{project.status}</span>}<h3 id={`project-${project.variant}`}>{project.title}</h3><p className="project-panel__stack">{project.stack.join(' / ')}</p>{project.context && <p className="project-panel__context">{project.context}</p>}<p>{project.description}</p><ul>{project.details.map(detail => <li key={detail}>{detail}</li>)}</ul>{project.url && <a className="project-panel__link" href={project.url}>Try Newton</a>}</div>
+        {photography[project.variant] && <figure className={`project-panel__photo${project.variant === 'newton' ? ' project-panel__photo--cover' : ''}`}><img src={`${import.meta.env.BASE_URL}assets/projects/${photography[project.variant].photo}`} alt={project.variant === 'newton' ? 'What if every student had a personal tutor?' : ''} loading="lazy" /></figure>}
       </article>)}
     </div>
   </section>
