@@ -14,12 +14,5 @@ test('all supplied project images load in the requested order', async ({ page })
     await expect.poll(() => photo.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
   }
   expect(await photos.evaluateAll(images => [images[1], images[2], images[5]].map(image => [image.naturalWidth, image.naturalHeight]))).toEqual([[4160, 6240], [3840, 2400], [2500, 1875]])
-  await expect(page.locator('.project-panel__photo figcaption')).toHaveText([
-    'Hackathon presentation cover',
-    'Study & learning · Editorial image',
-    'Minecraft server development · Editorial image',
-    'San Luis Obispo County · Editorial image',
-    'AI debugging illustration · Editorial image',
-    'Network connections · Editorial image',
-  ])
+  await expect(page.locator('.project-panel__photo figcaption')).toHaveCount(0)
 })
